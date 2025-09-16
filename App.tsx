@@ -10,39 +10,32 @@ function App(): React.JSX.Element {
 
   const [editingValue, setEditingValue] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    const storedValue = NativeLocalStorage?.getItem('myKey');
-    setValue(storedValue ?? '');
-  }, []);
-
-  function saveValue() {
-    NativeLocalStorage?.setItem(editingValue ?? EMPTY, 'myKey');
-    setValue(editingValue);
-  }
-
-  function clearAll() {
-    NativeLocalStorage?.clear();
-    setValue('');
-  }
-
-  function deleteValue() {
-    NativeLocalStorage?.removeItem('myKey');
-    setValue('');
-  }
-
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Text style={styles.text}>
-        Current stored value is: {value ?? 'No Value'}
-      </Text>
+      <Button
+        title="Get Value"
+        onPress={() => {
+          const savedValue = NativeLocalStorage?.getItem('myKey');
+          setValue('' + savedValue);
+        }}
+      />
+      <Text style={styles.text}>Current stored value is: {value}</Text>
       <TextInput
         placeholder="Enter the text you want to store"
         style={styles.textInput}
         onChangeText={setEditingValue}
       />
-      <Button title="Save" onPress={saveValue} />
-      <Button title="Delete" onPress={deleteValue} />
-      <Button title="Clear" onPress={clearAll} />
+      <Button
+        title="Save"
+        onPress={() =>
+          NativeLocalStorage.setItem(editingValue ?? EMPTY, 'myKey')
+        }
+      />
+      <Button
+        title="Delete"
+        onPress={() => NativeLocalStorage.removeItem('myKey')}
+      />
+      <Button title="Clear" onPress={() => NativeLocalStorage.clear()} />
     </SafeAreaView>
   );
 }
