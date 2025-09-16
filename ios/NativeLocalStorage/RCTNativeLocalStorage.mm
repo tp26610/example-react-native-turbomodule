@@ -44,4 +44,10 @@ RCT_EXPORT_MODULE(NativeLocalStorage)
   }
 }
 
+- (void)asyncGetItem:(nonnull NSString *)key resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+  NSString* value = [self.localStorage stringForKey:key];
+  resolve(value);
+}
+
+
 @end
