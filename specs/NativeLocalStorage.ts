@@ -6,6 +6,8 @@ export interface Spec extends TurboModule {
   getItem(key: string): string | null;
   removeItem(key: string): void;
   clear(): void;
+
+  asyncGetItem(key: string): Promise<string | null>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('NativeLocalStorage');

@@ -7,6 +7,7 @@ const EMPTY = '<empty>';
 
 function App(): React.JSX.Element {
   const [value, setValue] = React.useState<string | null>(null);
+  const [asyncValue, setAsyncValue] = React.useState<string | null>(null);
 
   const [editingValue, setEditingValue] = React.useState<string | null>(null);
 
@@ -36,6 +37,17 @@ function App(): React.JSX.Element {
         onPress={() => NativeLocalStorage.removeItem('myKey')}
       />
       <Button title="Clear" onPress={() => NativeLocalStorage.clear()} />
+      <Button
+        title="Get Async"
+        onPress={() => {
+          NativeLocalStorage.asyncGetItem('myKey').then(savedValue =>
+            setAsyncValue(savedValue ?? EMPTY),
+          );
+        }}
+      />
+      <Text style={styles.text}>
+        Current stored async value is: {asyncValue}
+      </Text>
     </SafeAreaView>
   );
 }

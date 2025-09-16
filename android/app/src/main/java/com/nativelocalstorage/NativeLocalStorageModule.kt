@@ -2,6 +2,7 @@ package com.nativelocalstorage
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.facebook.react.bridge.Promise
 import com.nativelocalstorage.NativeLocalStorageSpec
 import com.facebook.react.bridge.ReactApplicationContext
 
@@ -34,6 +35,12 @@ class NativeLocalStorageModule(reactContext: ReactApplicationContext) : NativeLo
         val editor = sharedPref.edit()
         editor.clear()
         editor.apply()
+    }
+
+    override fun asyncGetItem(key: String?, promise: Promise?) {
+        val sharedPref = getReactApplicationContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        val username = sharedPref.getString(key, null)
+        promise!!.resolve(username.toString())
     }
 
     companion object {
